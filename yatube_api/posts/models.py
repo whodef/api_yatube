@@ -3,6 +3,8 @@ from django.db import models
 
 User = get_user_model()
 
+ALLOWED_NUMBER_OF_CHAR = 1024
+
 
 class Group(models.Model):
     title = models.CharField(max_length=200)
@@ -25,12 +27,12 @@ class Post(models.Model):
         upload_to='posts/', null=True, blank=True
     )  # поле для картинки
     group = models.ForeignKey(
-        Group, on_delete=models.CASCADE,
+        Group, on_delete=models.SET_NULL,
         related_name="posts", blank=True, null=True
     )
 
     def __str__(self):
-        return self.text
+        return self.text[:ALLOWED_NUMBER_OF_CHAR]
 
 
 class Comment(models.Model):
